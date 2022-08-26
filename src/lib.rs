@@ -274,7 +274,7 @@ impl IndexMut<(usize, usize)> for DenseMatrix {
 }
 
 #[pymodule]
-fn py_commute(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
+fn py_agp(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     m.add_class::<SparseBiDirectional>()?;
     m.add_class::<DenseMatrix>()?;
     m.add_class::<FloatEntry>()?;
