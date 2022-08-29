@@ -19,14 +19,16 @@ pub struct SparseBiDirectional {
 #[pymethods]
 impl SparseBiDirectional {
     #[new]
-    fn new(matrix: Vec<(usize, usize, String)>, prec: u32) -> PyResult<Self> {
-        let max_row_col = matrix
-            .iter()
-            .flat_map(|(i, j, _)| [i, j].into_iter())
-            .copied()
-            .max()
-            .map(|m| m + 1)
-            .unwrap_or(0);
+    fn new(matrix: Vec<(usize, usize, String)>, prec: u32, n: Option<usize>) -> PyResult<Self> {
+        let max_row_col = n.unwrap_or_else(|| {
+            matrix
+                .iter()
+                .flat_map(|(i, j, _)| [i, j].into_iter())
+                .copied()
+                .max()
+                .map(|m| m + 1)
+                .unwrap_or(1)
+        });
 
         let hamiltonian = matrix
             .into_iter()
@@ -95,6 +97,14 @@ impl SparseBiDirectional {
             .complete(prec)
         });
         Ok(newmat)
+    }
+
+    fn __repr__(&self) -> String {
+        format!(
+            "[Sparse: {0}x{0} w/ prec={1}]",
+            self.row_indexed.len(),
+            self.prec
+        )
     }
 }
 
@@ -181,26 +191,35 @@ struct DenseMatrix {
 #[pymethods]
 impl DenseMatrix {
     #[new]
-    fn new(n: usize, matrix: Vec<String>, prec: u32) -> PyResult<Self> {
-        let data = matrix
-            .into_iter()
-            .map(|s| Float::parse(s))
-            .map(|p| p.map(|p| Float::with_val(prec, p)))
-            .try_fold(vec![], |mut acc, p| {
-                p.map(|p| {
-                    acc.push(p);
-                    acc
+    fn new(n: usize, prec: u32, matrix: Option<Vec<String>>) -> PyResult<Self> {
+        if n == 0 {
+            return Err(PyValueError::new_err(
+                "N must be greater than 0".to_string(),
+            ));
+        }
+        if let Some(matrix) = matrix {
+            let data = matrix
+                .into_iter()
+                .map(|s| Float::parse(s))
+                .map(|p| p.map(|p| Float::with_val(prec, p)))
+                .try_fold(vec![], |mut acc, p| {
+                    p.map(|p| {
+                        acc.push(p);
+                        acc
+                    })
                 })
-            })
-            .map_err(|err| PyValueError::new_err(format!("Float parse error: {:?}", err)))?;
+                .map_err(|err| PyValueError::new_err(format!("Float parse error: {:?}", err)))?;
 
-        Ok(Self { n, prec, data })
+            Ok(Self { n, prec, data })
+        } else {
+            let data = vec![Float::new(prec); n * n];
+            Ok(Self { n, prec, data })
+        }
     }
 
     #[staticmethod]
-    fn new_empty(n: usize, prec: u32) -> Self {
-        let data = vec![Float::new(prec); n * n];
-        Self { n, prec, data }
+    fn new_empty(n: usize, prec: u32) -> PyResult<Self> {
+        Self::new(n, prec, None)
     }
 
     fn set_val(&mut self, r: usize, c: usize, data: String) -> PyResult<()> {
@@ -276,6 +295,10 @@ impl DenseMatrix {
 
     fn __truediv__(&self, val: &FloatEntry) -> Self {
         self.div_float(&val.f)
+    }
+
+    fn __repr__(&self) -> String {
+        format!("[Dense: {0}x{0} w/ prec={1}]", self.n, self.prec)
     }
 }
 
