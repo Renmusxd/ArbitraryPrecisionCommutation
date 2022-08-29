@@ -67,10 +67,9 @@ impl SparseBiDirectional {
         let prec = min(self.prec, mat.prec);
         let newmat = DenseMatrix::new_from(mat.n, prec, |r, c| {
             let row = &self.row_indexed[r];
-            row.par_iter()
+            row.iter()
                 .map(|(sparse_c, val)| &mat[(*sparse_c, c)] * val)
-                .map(|m| m.complete(prec))
-                .reduce(|| Float::new(prec), |a, b| a + b)
+                .fold(Float::new(prec), |acc, x| acc + x)
         });
         Ok(newmat)
     }
@@ -87,10 +86,10 @@ impl SparseBiDirectional {
         let prec = min(self.prec, mat.prec);
         let newmat = DenseMatrix::new_from(mat.n, min(self.prec, mat.prec), |r, c| {
             let col = &self.col_indexed[c];
-            col.par_iter()
+            col.iter()
                 .map(|(sparse_r, val)| &mat[(r, *sparse_r)] * val)
                 .map(|m| m.complete(prec))
-                .reduce(|| Float::new(prec), |a, b| a + b)
+                .fold(Float::new(prec), |acc, x| acc + x)
         });
         Ok(newmat)
     }
