@@ -67,9 +67,11 @@ impl SparseBiDirectional {
         let prec = min(self.prec, mat.prec);
         let newmat = DenseMatrix::new_from(mat.n, prec, |r, c| {
             let row = &self.row_indexed[r];
-            row.iter()
-                .map(|(sparse_c, val)| &mat[(*sparse_c, c)] * val)
-                .fold(Float::new(prec), |acc, x| acc + x)
+            Float::dot(
+                row.iter()
+                    .map(|(sparse_c, val)| (&mat[(*sparse_c, c)], val)),
+            )
+            .complete(prec)
         });
         Ok(newmat)
     }
@@ -86,10 +88,11 @@ impl SparseBiDirectional {
         let prec = min(self.prec, mat.prec);
         let newmat = DenseMatrix::new_from(mat.n, min(self.prec, mat.prec), |r, c| {
             let col = &self.col_indexed[c];
-            col.iter()
-                .map(|(sparse_r, val)| &mat[(r, *sparse_r)] * val)
-                .map(|m| m.complete(prec))
-                .fold(Float::new(prec), |acc, x| acc + x)
+            Float::dot(
+                col.iter()
+                    .map(|(sparse_r, val)| (&mat[(r, *sparse_r)], val)),
+            )
+            .complete(prec)
         });
         Ok(newmat)
     }
@@ -229,21 +232,18 @@ impl DenseMatrix {
 
     fn trace(&self) -> FloatEntry {
         FloatEntry {
-            f: (0..self.n)
-                .into_par_iter()
-                .map(|i| self[(i, i)].clone())
-                .reduce(|| Float::new(self.prec), |a, b| a + b),
+            f: Float::sum((0..self.n).map(|i| &self[(i, i)])).complete(self.prec),
         }
     }
 
     /// Performs Sqrt(Sum Aij^2)
     fn norm2(&self) -> FloatEntry {
-        let f = self
+        let data = self
             .data
-            .par_iter()
+            .iter()
             .map(|f| f.clone().square())
-            .reduce(|| Float::new(self.prec), |a, b| a + b)
-            .sqrt();
+            .collect::<Vec<_>>();
+        let f = Float::sum(data.iter()).complete(self.prec).sqrt();
         FloatEntry { f }
     }
 
