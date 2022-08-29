@@ -128,21 +128,26 @@ impl FloatEntry {
         self.f.to_f64()
     }
 
-    fn __add__(&self, f: FloatEntry) -> Self {
+    fn __add__(&self, f: &FloatEntry) -> Self {
         Self {
-            f: self.f.clone() + f.f,
+            f: self.f.clone() + &f.f,
         }
     }
 
-    fn __sub__(&self, f: FloatEntry) -> Self {
+    fn __sub__(&self, f: &FloatEntry) -> Self {
         Self {
-            f: self.f.clone() - f.f,
+            f: self.f.clone() - &f.f,
         }
     }
 
-    fn __mul__(&self, f: FloatEntry) -> Self {
+    fn __mul__(&self, f: &FloatEntry) -> Self {
         Self {
-            f: self.f.clone() * f.f,
+            f: self.f.clone() * &f.f,
+        }
+    }
+    fn __truediv__(&self, f: &FloatEntry) -> Self {
+        Self {
+            f: self.f.clone() / &f.f,
         }
     }
 
