@@ -1,5 +1,5 @@
 use ndarray::Array2;
-use numpy::{PyArray2, ToPyArray};
+use numpy::{PyArray2, PyReadonlyArray2, ToPyArray};
 use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
 use rayon::prelude::*;
@@ -188,6 +188,39 @@ impl DenseMatrix {
             .map_err(|err| PyValueError::new_err(format!("Float parse error: {:?}", err)))?;
 
         Ok(Self { n, prec, data })
+    }
+
+    #[staticmethod]
+    fn new_empty(n: usize, prec: u32) -> Self {
+        let data = vec![Float::new(prec); n * n];
+        Self { n, prec, data }
+    }
+
+    fn set_val(&mut self, r: usize, c: usize, data: String) -> PyResult<()> {
+        self[(r, c)] = Float::with_val(
+            self.prec,
+            Float::parse(data)
+                .map_err(|err| PyValueError::new_err(format!("Error parsing float: {:?}", err)))?,
+        );
+        Ok(())
+    }
+
+    #[staticmethod]
+    fn new_from_numpy(data: PyReadonlyArray2<f64>, prec: u32) -> PyResult<Self> {
+        let n = data.shape()[0];
+        if n != data.shape()[1] {
+            return Err(PyValueError::new_err(format!(
+                "Matrix not square: {:?}",
+                data.shape()
+            )));
+        }
+        let data = data
+            .as_slice()?
+            .iter()
+            .copied()
+            .map(|f| Float::with_val(prec, f))
+            .collect::<Vec<_>>();
+        Ok(Self { n, data, prec })
     }
 
     fn trace(&self) -> FloatEntry {
