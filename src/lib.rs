@@ -257,19 +257,24 @@ impl DenseMatrix {
         res.to_pyarray(py).to_owned()
     }
 
-    fn __mul__(&self, other: FloatEntry) -> Self {
-        Self::new_from(self.n, min(self.prec, other.f.prec()), |r, c| {
-            self[(r, c)].clone() * other.f.clone()
+    fn __mul__(&self, other: &FloatEntry) -> Self {
+        let prec = min(self.prec, other.f.prec());
+        Self::new_from(self.n, prec, |r, c| {
+            (&self[(r, c)] * &other.f).complete(prec)
         })
+    }
+    fn __rmul__(&self, other: &FloatEntry) -> Self {
+        self.__mul__(other)
     }
 
     fn __sub__(&self, other: &Self) -> Self {
-        Self::new_from(self.n, min(self.prec, other.prec), |r, c| {
-            self[(r, c)].clone() - other[(r, c)].clone()
+        let prec = min(self.prec, other.prec);
+        Self::new_from(self.n, prec, |r, c| {
+            (&self[(r, c)] - &other[(r, c)]).complete(prec)
         })
     }
 
-    fn __truediv__(&self, val: FloatEntry) -> Self {
+    fn __truediv__(&self, val: &FloatEntry) -> Self {
         self.div_float(&val.f)
     }
 }
@@ -290,9 +295,8 @@ impl DenseMatrix {
     }
 
     fn div_float(&self, f: &Float) -> Self {
-        Self::new_from(self.n, min(self.prec, f.prec()), |r, c| {
-            &self[(r, c)] / f.clone()
-        })
+        let prec = min(self.prec, f.prec());
+        Self::new_from(self.n, prec, |r, c| (&self[(r, c)] / f).complete(prec))
     }
 }
 
