@@ -257,12 +257,9 @@ impl DenseMatrix {
 
     /// Performs Sqrt(Sum Aij^2)
     fn norm2(&self) -> FloatEntry {
-        let data = self
-            .data
-            .iter()
-            .map(|f| f.clone().square())
-            .collect::<Vec<_>>();
-        let f = Float::sum(data.iter()).complete(self.prec).sqrt();
+        let f = Float::dot(self.data.iter().zip(self.data.iter()))
+            .complete(self.prec)
+            .sqrt();
         FloatEntry { f }
     }
 
