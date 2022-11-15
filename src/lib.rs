@@ -5,10 +5,13 @@ use pyo3::prelude::*;
 use rayon::prelude::*;
 use rug::ops::CompleteRound;
 use rug::Float;
+use serde::{Deserialize, Serialize};
 use std::cmp::min;
+use std::fs::File;
 use std::ops::{Index, IndexMut};
 
 #[pyclass]
+#[derive(Serialize, Deserialize)]
 pub struct SparseBiDirectional {
     row_indexed: Vec<Vec<(usize, Float)>>,
     col_indexed: Vec<Vec<(usize, Float)>>,
@@ -55,6 +58,21 @@ impl SparseBiDirectional {
             prec,
             zero: Float::new(prec),
         })
+    }
+
+    fn save_to(&self, filename: String) -> PyResult<()> {
+        let file = File::create(&filename)
+            .map_err(|e| PyValueError::new_err(format!("File Error: {}", e)))?;
+        serde_cbor::to_writer(file, self)
+            .map_err(|e| PyValueError::new_err(format!("Serialization Error: {}", e)))
+    }
+
+    #[staticmethod]
+    fn load_from(filename: String) -> PyResult<Self> {
+        let file = File::open(filename)
+            .map_err(|e| PyValueError::new_err(format!("File Error: {}", e)))?;
+        serde_cbor::from_reader(file)
+            .map_err(|e| PyValueError::new_err(format!("Serialization Error: {}", e)))
     }
 
     fn __matmul__(&self, mat: &DenseMatrix) -> PyResult<DenseMatrix> {
@@ -182,6 +200,7 @@ impl FloatEntry {
 }
 
 #[pyclass]
+#[derive(Serialize, Deserialize)]
 struct DenseMatrix {
     n: usize,
     prec: u32,
@@ -200,7 +219,7 @@ impl DenseMatrix {
         if let Some(matrix) = matrix {
             let data = matrix
                 .into_iter()
-                .map(|s| Float::parse(s))
+                .map(Float::parse)
                 .map(|p| p.map(|p| Float::with_val(prec, p)))
                 .try_fold(vec![], |mut acc, p| {
                     p.map(|p| {
@@ -215,6 +234,21 @@ impl DenseMatrix {
             let data = vec![Float::new(prec); n * n];
             Ok(Self { n, prec, data })
         }
+    }
+
+    fn save_to(&self, filename: String) -> PyResult<()> {
+        let file = File::create(&filename)
+            .map_err(|e| PyValueError::new_err(format!("File Error: {}", e)))?;
+        serde_cbor::to_writer(file, self)
+            .map_err(|e| PyValueError::new_err(format!("Serialization Error: {}", e)))
+    }
+
+    #[staticmethod]
+    fn load_from(filename: String) -> PyResult<Self> {
+        let file = File::open(filename)
+            .map_err(|e| PyValueError::new_err(format!("File Error: {}", e)))?;
+        serde_cbor::from_reader(file)
+            .map_err(|e| PyValueError::new_err(format!("Serialization Error: {}", e)))
     }
 
     #[staticmethod]

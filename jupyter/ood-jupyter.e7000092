@@ -1,0 +1,113 @@
++ jupyter notebook --config=/usr2/postdoc/moflynn/ondemand/data/sys/dashboard/batch_connect/sys/jupyter/output/ae3c29cf-e3dd-41f4-9361-c6bd106f6ad2/config.py ''
+[W 18:20:09.390 NotebookApp] WARNING: The notebook server is listening on all IP addresses and not using encryption. This is not recommended.
+[W 18:20:09.408 NotebookApp] Error loading server extension dask_labextension
+    Traceback (most recent call last):
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/notebook/notebookapp.py", line 2033, in init_server_extensions
+        mod = importlib.import_module(modulename)
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/importlib/__init__.py", line 127, in import_module
+        return _bootstrap._gcd_import(name[level:], package, level)
+      File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+      File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+      File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+      File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+      File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+      File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/dask_labextension/__init__.py", line 3, in <module>
+        from jupyter_server.utils import url_path_join
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyter_server/__init__.py", line 15, in <module>
+        from ._version import version_info, __version__
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyter_server/_version.py", line 5, in <module>
+        from jupyter_packaging import get_version_info
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyter_packaging/__init__.py", line 7, in <module>
+        from .setupbase import *
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyter_packaging/setupbase.py", line 38, in <module>
+        from setuptools.config import StaticModule
+    ImportError: cannot import name 'StaticModule' from 'setuptools.config' (/usr2/postdoc/moflynn/.local/lib/python3.8/site-packages/setuptools/config/__init__.py)
+[W 18:20:11.330 NotebookApp] Error loading server extension jupyter_server_proxy
+    Traceback (most recent call last):
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/notebook/notebookapp.py", line 2033, in init_server_extensions
+        mod = importlib.import_module(modulename)
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/importlib/__init__.py", line 127, in import_module
+        return _bootstrap._gcd_import(name[level:], package, level)
+      File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+      File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+      File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+      File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+      File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+      File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyter_server_proxy/__init__.py", line 1, in <module>
+        from .handlers import setup_handlers, SuperviseAndProxyHandler
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyter_server_proxy/handlers.py", line 16, in <module>
+        from jupyter_server.utils import ensure_async, url_path_join
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyter_server/__init__.py", line 15, in <module>
+        from ._version import version_info, __version__
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyter_server/_version.py", line 5, in <module>
+        from jupyter_packaging import get_version_info
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyter_packaging/__init__.py", line 7, in <module>
+        from .setupbase import *
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyter_packaging/setupbase.py", line 38, in <module>
+        from setuptools.config import StaticModule
+    ImportError: cannot import name 'StaticModule' from 'setuptools.config' (/usr2/postdoc/moflynn/.local/lib/python3.8/site-packages/setuptools/config/__init__.py)
+[W 18:20:11.401 NotebookApp] Error loading server extension jupyterlab
+    Traceback (most recent call last):
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/notebook/notebookapp.py", line 2033, in init_server_extensions
+        mod = importlib.import_module(modulename)
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/importlib/__init__.py", line 127, in import_module
+        return _bootstrap._gcd_import(name[level:], package, level)
+      File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+      File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+      File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+      File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+      File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+      File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyterlab/__init__.py", line 7, in <module>
+        from .labapp import LabApp
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyterlab/labapp.py", line 15, in <module>
+        from jupyterlab_server import slugify, WORKSPACE_EXTENSION
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyterlab_server/__init__.py", line 4, in <module>
+        from .app import LabServerApp
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyterlab_server/app.py", line 7, in <module>
+        from jupyter_server.extension.application import ExtensionApp, ExtensionAppJinjaMixin
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyter_server/__init__.py", line 15, in <module>
+        from ._version import version_info, __version__
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyter_server/_version.py", line 5, in <module>
+        from jupyter_packaging import get_version_info
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyter_packaging/__init__.py", line 7, in <module>
+        from .setupbase import *
+      File "/share/pkg.7/python3/3.8.10/install/lib/python3.8/site-packages/jupyter_packaging/setupbase.py", line 38, in <module>
+        from setuptools.config import StaticModule
+    ImportError: cannot import name 'StaticModule' from 'setuptools.config' (/usr2/postdoc/moflynn/.local/lib/python3.8/site-packages/setuptools/config/__init__.py)
+[I 18:20:11.402 NotebookApp] Serving notebooks from local directory: /usr2/postdoc/moflynn
+[I 18:20:11.403 NotebookApp] Jupyter Notebook 6.3.0 is running at:
+[I 18:20:11.403 NotebookApp] http://scc-pf3:33754/node/scc-pf3/33754/
+[I 18:20:11.403 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[I 18:20:16.702 NotebookApp] 302 POST /node/scc-pf3/33754/login (192.168.16.72) 2.820000ms
+[I 18:20:16.784 NotebookApp] 302 GET /node/scc-pf3/33754/ (192.168.16.72) 0.680000ms
+[W 18:20:18.051 NotebookApp] 404 GET /node/scc-pf3/33754/server-proxy/servers-info (192.168.16.72) 9.400000ms referer=https://scc-ondemand1.bu.edu/node/scc-pf3/33754/tree?
+[W 18:20:21.683 NotebookApp] Config option `template_path` not recognized by `ExporterCollapsibleHeadings`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:21.715 NotebookApp] Config option `template_path` not recognized by `ExporterCollapsibleHeadings`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:21.849 NotebookApp] Config option `template_path` not recognized by `TocExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:21.856 NotebookApp] Config option `template_path` not recognized by `TocExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:21.962 NotebookApp] Config option `template_path` not recognized by `LenvsHTMLExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:21.974 NotebookApp] Config option `template_path` not recognized by `LenvsHTMLExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:22.010 NotebookApp] Config option `template_path` not recognized by `LenvsTocHTMLExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:22.023 NotebookApp] Config option `template_path` not recognized by `LenvsTocHTMLExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:22.097 NotebookApp] Config option `template_path` not recognized by `LenvsLatexExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:22.104 NotebookApp] Config option `template_path` not recognized by `LenvsLatexExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:22.441 NotebookApp] Config option `template_path` not recognized by `LenvsSlidesExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:22.449 NotebookApp] Config option `template_path` not recognized by `LenvsSlidesExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:22.650 NotebookApp] Config option `template_path` not recognized by `ExporterCollapsibleHeadings`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:22.660 NotebookApp] Config option `template_path` not recognized by `ExporterCollapsibleHeadings`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:22.791 NotebookApp] Config option `template_path` not recognized by `TocExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:22.798 NotebookApp] Config option `template_path` not recognized by `TocExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:22.829 NotebookApp] Config option `template_path` not recognized by `LenvsHTMLExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:22.841 NotebookApp] Config option `template_path` not recognized by `LenvsHTMLExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:22.876 NotebookApp] Config option `template_path` not recognized by `LenvsTocHTMLExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:22.888 NotebookApp] Config option `template_path` not recognized by `LenvsTocHTMLExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:22.958 NotebookApp] Config option `template_path` not recognized by `LenvsLatexExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:22.965 NotebookApp] Config option `template_path` not recognized by `LenvsLatexExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:23.293 NotebookApp] Config option `template_path` not recognized by `LenvsSlidesExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[W 18:20:23.301 NotebookApp] Config option `template_path` not recognized by `LenvsSlidesExporter`.  Did you mean one of: `extra_template_paths, template_name, template_paths`?
+[I 18:20:24.638 NotebookApp] Kernel started: f72913cf-c39f-4891-a3d1-19aac21a904a, name: py3
+[I 18:20:42.637 NotebookApp] KernelRestarter: restarting kernel (1/5), keep random ports
+WARNING:root:kernel f72913cf-c39f-4891-a3d1-19aac21a904a restarted
